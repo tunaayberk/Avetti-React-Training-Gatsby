@@ -1,0 +1,13 @@
+{
+  "lang": ["en", "es", "tr"],
+  "languageNames": {
+    "en": { "default": true, "name": "English American", "currency": "USD" },
+    "es": { "default": false, "name": "Spanish", "currency": "EUR" },
+    "tr": { "default": false, "name": "Turkish", "currency": "TRY" }
+  },
+  "convertionRates": {
+    "USD": "1",
+    "EUR": "0.88",
+    "TRY": "6"
+  }
+}
