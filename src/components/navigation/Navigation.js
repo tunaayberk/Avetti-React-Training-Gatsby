@@ -88,7 +88,7 @@ const Navigation = () => {
           <Button key={index} color="inherit">
             <Link
               style={!mobileState ? { color: "white" } : { color: "black" }}
-              to={`/shop${menu.url}`}
+              to={`${menu.url.replace("shop/", "")}`}
             >
               {menu.name}
             </Link>
