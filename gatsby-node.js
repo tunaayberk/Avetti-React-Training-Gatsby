@@ -12,7 +12,7 @@ exports.onCreatePage = async ({ page, actions }) => {
 }
 
 exports.createPages = async ({ actions, graphql, reporter }) => {
-  /* const products = graphql(`
+  const products = graphql(`
     query MyQuery {
       allAvettiProduct {
         nodes {
@@ -29,11 +29,14 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
     result.data.allAvettiProduct.nodes.forEach(node => {
       console.error(
         "URL::::",
-        node.url.replace("https://bdadmin3qa.avetti.io/preview/", "")
+        node.url.replace(
+          "http://demob2b2cpreview.avetti.io/preview/product/",
+          ""
+        )
       )
       actions.createPage({
         path: `/${node.url.replace(
-          "https://bdadmin3qa.avetti.io/preview/",
+          "http://demob2b2cpreview.avetti.io/preview/product/",
           ""
         )}`,
         component: require.resolve("./src/templates/product.js"),
@@ -43,7 +46,7 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
       })
     })
   })
- */
+
   const categories = graphql(`
     query MyQuery {
       allAvettiCategory {
@@ -61,22 +64,23 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
     result.data.allAvettiCategory.nodes.forEach(async node => {
       const pageCount = Number(node.numberOfPages)
       console.error("::CAT::", node.url)
-      await Array.from({ length: pageCount }).map((_, index) =>
-        actions.createPage({
-          path:
-            index === 0
-              ? `/${node.url.replace("shop/", "")}`
-              : `/${node.url.replace("shop/", "")}/${index + 1}`,
-          component: require.resolve("./src/templates/category.js"),
-          context: {
-            pageCount,
-            currentPage: index + 1,
-            url: node.url,
-          },
-        })
+      await Array.from({ length: pageCount !== 0 ? pageCount : 1 }).map(
+        (_, index) =>
+          actions.createPage({
+            path:
+              index === 0
+                ? `/${node.url.replace("shop/", "")}`
+                : `/${node.url.replace("shop/", "")}/${index + 1}`,
+            component: require.resolve("./src/templates/category.js"),
+            context: {
+              pageCount,
+              currentPage: index + 1,
+              url: node.url,
+            },
+          })
       )
     })
   })
 
-  return Promise.all([categories])
+  return Promise.all([products, categories])
 }

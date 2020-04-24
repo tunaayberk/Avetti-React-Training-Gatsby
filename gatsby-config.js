@@ -28,6 +28,13 @@ module.exports = {
       },
     },
     {
+      resolve: "gatsby-source-avetti",
+      options: {
+        key: "<YOUR_API_KEY_HERE>",
+        q: "yellow flowers",
+      },
+    },
+    {
       resolve: "gatsby-source-avetti-category",
       options: {
         key: "<YOUR_API_KEY_HERE>",
